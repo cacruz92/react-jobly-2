@@ -9,6 +9,7 @@ import {
     ListGroupItem
   } from "reactstrap";
 import SearchForm from "./SearchForm";
+import "./ListPage.css"
 
 
 const Companies = ({list, category}) => {
@@ -17,36 +18,49 @@ const Companies = ({list, category}) => {
         <>
         <SearchForm />
         <section className="col-md-4">
-            <Card>
-                <CardBody>
-                    <CardTitle className="font-weight-bold text-center">
-                    <h1>{category}</h1>
-                    </CardTitle>
-                <CardText className="text-center">
-                    Below is a list of all the {category} in our database. Pick one and see what jobs are being offered!
-                </CardText>
-                <ListGroup>
                     {category === "Companies" ? (
                         list.map(company => (
-                            <Link 
-                            to={`${category.toLowerCase()}/${company.handle}`} 
-                            key={company.handle}>
-                                <ListGroupItem>{company.name}</ListGroupItem>
-                            </Link>
+                            <>
+                            <Card key={company.handle} className="mb-3">
+                                <CardBody>
+                                    <CardTitle>
+                                        <Link 
+                                        to={`/companies/${company.handle}`} 
+                                        key={company.handle}
+                                        className="card-title a">
+                                            <ListGroupItem className="list-group-item">{company.name}</ListGroupItem>
+                                        </Link>
+                                    </CardTitle> 
+                                    <CardText>{company.description}</CardText>   
+                                </CardBody>
+                            </Card>
+                            </>
                         ))
                     ):(
                         list.map(job => (
-                            <Link 
-                            to={`${category.toLowerCase()}/${job.title}`} 
-                            key={job.id}>
-                                <ListGroupItem>{job.title}</ListGroupItem>
-                            </Link>
+
+                            <>
+                            <Card key={job.id} className="mb-3">
+                                <CardBody>
+                                    <CardTitle>
+                                    <h1>{job.title}</h1>
+                                    </CardTitle> 
+                                    <CardText>
+                                        <h3><i>{job.companyName}</i></h3>
+                                        <p>Salary: {job.salary}</p>
+                                        <p>Equity: {job.equity}</p>
+                                        
+                                    </CardText>   
+                                    <button className="button-apply"> 
+                                        Apply
+                                    </button>
+                                </CardBody>
+                            </Card>
+                            </>
                         ))
                     )
                 }
-                </ListGroup>
-                </CardBody>
-            </Card>
+                
         </section>
         </>
     )

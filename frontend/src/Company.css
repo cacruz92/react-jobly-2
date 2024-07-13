@@ -1,0 +1,6 @@
+.transparent-card {
+    background-color: transparent;
+    border: none;
+    color: white;
+    padding: 1rem;
+  }

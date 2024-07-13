@@ -16,24 +16,25 @@ function App() {
   const [jobList, setJobList] = useState([])
 
   useEffect(() => {
-    async function getCompanies() {
-      
-      let companies = await JoblyApi.request('companies');
-      
+    async function getData() {
+      const[companies, jobs] = await Promise.all([
+        JoblyApi.request('companies'),
+        JoblyApi.request('jobs')
+      ]);
       setCompanyList(companies.companies);
-      setIsLoading(false);
-    }
-    getCompanies();
-  }, [])
-
-  useEffect(() => {
-    async function getJobs() {
-      let jobs = await JoblyApi.request('jobs');
       setJobList(jobs.jobs);
       setIsLoading(false);
     }
-    getJobs();
-  }, [])
+    getData();
+  },[])
+
+
+  async function getCompany(companyHandle) {
+    let companyInfo = await JoblyApi.getCompany(companyHandle);
+    return companyInfo;
+  }
+
+  
 
   if (isLoading) {
     return <p>Loading &hellip;</p>;
@@ -45,10 +46,10 @@ function App() {
         <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/companies" element={<ListPage list={companyList} title="Companies" category="Companies" />} />
-            <Route path="/companies/:company" element={<Company />} />
+            <Route path="/companies/:companyHandle" element={<Company getCompany={getCompany}/>} />
             <Route path="/jobs" element={<ListPage list={jobList} title="Jobs" category="Jobs" />} />
             <Route path="/login" element={<LoginForm />} />
-            <Route path="/signup" element={<SignupForm />} />
+            <Route path="/signup" element={<SignupForm/>} />
             <Route path="/profile" element={<Profile />} />
         </Routes>
     </div>
