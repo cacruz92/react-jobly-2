@@ -1,6 +1,8 @@
 import React, {useState} from "react";
+import useLocalStorageState from './hooks/useLocalStorageState'
 import {useNavigate} from "react-router-dom"
 import JoblyApi from "./api";
+import {jwtDecode} from "jwt-decode";
 import {
     Card,
     CardBody,
@@ -10,7 +12,7 @@ import {
     ListGroupItem
   } from "reactstrap";
 
-const LoginForm = () => {
+const LoginForm = ({handleUserAuth}) => {
     const navigate = useNavigate();
     const INITIAL_STATE = {
         username: "",
@@ -20,6 +22,8 @@ const LoginForm = () => {
     // use state to control the form
     const [formData, setFormData] = useState(INITIAL_STATE);
     const [formErrors, setFormErrors] = useState();
+
+    const[token, setToken] = useLocalStorageState('token', '')
 
     // allow the changes to the form to be entered into state 
     const handleChange = (e) => {
@@ -33,23 +37,19 @@ const LoginForm = () => {
     // submit the form if the form is filled out, otherwise alert them it's not
     async function handleSubmit(e) {
         e.preventDefault();
-        try{
-            let token = await JoblyApi.login(formData);
-            console.log(token)
-            console.log("success")
-            navigate("/")
-        } catch(errors) {
-            setFormErrors(errors)
-            console.log(formErrors)
+        const result = await handleUserAuth(formData, 'login');
+        if (result.success) {
+          navigate("/");
+        } else {
+          setFormErrors(result.errors);
         }
-        
-    }
+      }
 
     return(
         <div className="formContainer">
             <Card>
                 <CardBody>
-                    <h1>Sign Up</h1>
+                    <h1>Login</h1>
 
                     <form 
                     className="signUpForm" 
