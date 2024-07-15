@@ -3,13 +3,16 @@ import useLocalStorageState from './hooks/useLocalStorageState';
 import {useNavigate} from "react-router-dom"
 import UserContext from "./UserContext";
 import JoblyApi from "./api";
+import "./Profile.css"
 import {
     Card,
     CardBody,
     CardTitle,
-    CardText,
-    ListGroup,
-    ListGroupItem
+    Form,
+    FormGroup,
+    Label,
+    Input,
+    Button
   } from "reactstrap";;
 
 
@@ -54,7 +57,8 @@ const Profile = () => {
       }
 
     return(
-        <div className="formContainer">
+        <div className="page-container">
+        <div className="content-wrapper">
             <Card>
                 <CardBody>
                     <h1>Edit Profile</h1>
@@ -100,10 +104,11 @@ const Profile = () => {
                         onChange={handleChange}
                         />
                         <br></br>
-                        <button>Edit</button>
+                        <Button color="primary" block>Save Changes</Button>
                     </form>
                 </CardBody>
             </Card>
+        </div>
         </div>
     )
 }

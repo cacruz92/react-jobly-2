@@ -1,45 +1,36 @@
 import React, {useContext} from "react";
 import UserContext from "./UserContext";
 import {NavLink} from "react-router-dom";
-import {Navbar, Nav, NavItem} from "reactstrap";
+import {Navbar, Nav, NavItem, Container} from "reactstrap";
 import './NavBar.css'
 
 const NavBar = ({logout}) => {
   const {currentUser} = useContext(UserContext);
     return (
-        <div>
-          <Navbar expand="md">
-            
+      <nav className="NavBar">
+        <div className="nav-container">
             <NavLink exact to="/" className="navbar-brand">
               Jobly
             </NavLink>
-    
-            <Nav className="ml-auto" navbar>
-            {currentUser ? (
-              <>
-                {/* <NavItem> */}
-                <NavLink to="/companies"> Companies </NavLink>
-                {/* </NavItem> */}
-                {/* <NavItem> */}
-                <NavLink to="/jobs"> Jobs </NavLink>
-                {/* </NavItem> */}
-                {/* <NavItem> */}
-                <NavLink to="/profile"> Profile </NavLink>
-                {/* </NavItem> */}
-                {/* <NavItem> */}
-                <NavLink to="/" onClick={logout}> Logout </NavLink> 
-                {/* </NavItem> */}
-                </>
-              ):(
+        
+              <div className="nav-links right-align">
+              {currentUser ? (
                 <>
-                <NavLink to="/login"> Login </NavLink>
-                <NavLink to="/signup"> Signup </NavLink>
+                    <NavLink to="/companies" className="nav-link"> Companies </NavLink>
+                    <NavLink to="/jobs" className="nav-link"> Jobs </NavLink>
+                    <NavLink to="/profile" className="nav-link"> Profile </NavLink>
+                    <NavLink to="/" onClick={logout} className="nav-link"> Logout {currentUser.username} </NavLink> 
+                </>
+              ) : (
+                <>
+                    <NavLink to="/login" className="nav-link"> Login </NavLink>
+                    <NavLink to="/signup" className="nav-link"> Signup </NavLink>
                 </>
               )}
-            </Nav>
-          </Navbar>
-        </div>
-      );
+              </div>
+            </div>
+        </nav>
+    );
 }
 
 export default NavBar;

@@ -72,6 +72,23 @@ class JoblyApi {
     return res.user;
   }
 
+    /** Search  */ 
+    static async searchCompanies(name) {
+      let res = await this.request('companies', {name});
+      return res.companies;
+    }
+
+    static async searchJobs(title) {
+      let res = await this.request('jobs', {title});
+      return res.jobs;
+    }
+
+    /** apply to a job  */ 
+    static async applyToJob(username, jobId) {
+      const res = await this.request(`users/${username}/jobs/${jobId}`, {}, "post");
+      return res.applied;
+    }
+
 }
 
 

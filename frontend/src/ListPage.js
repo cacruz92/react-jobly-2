@@ -12,11 +12,13 @@ import SearchForm from "./SearchForm";
 import "./ListPage.css"
 
 
-const Companies = ({list, category}) => {
+const ListPage = ({list, category, onSearch, handleApply, hasAppliedToJob}) => {
     
     return(
-        <>
-        <SearchForm />
+        <div className="page-container">
+        <div className="content-wrapper">
+        <SearchForm category={category} onSearch={onSearch}/>
+        <div className="card-container">
         <section className="col-md-4">
                     {category === "Companies" ? (
                         list.map(company => (
@@ -51,8 +53,11 @@ const Companies = ({list, category}) => {
                                         <p>Equity: {job.equity}</p>
                                         
                                     </CardText>   
-                                    <button className="button-apply"> 
-                                        Apply
+                                    <button 
+                                    className="button-apply"
+                                    onClick={() => handleApply(job.id)}
+                                    disabled={hasAppliedToJob(job.id)}> 
+                                        {hasAppliedToJob(job.id) ? "Applied" : "Apply"}
                                     </button>
                                 </CardBody>
                             </Card>
@@ -62,8 +67,10 @@ const Companies = ({list, category}) => {
                 }
                 
         </section>
-        </>
+        </div>
+        </div>
+        </div>
     )
 }
 
-export default Companies;
+export default ListPage;

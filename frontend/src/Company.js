@@ -10,8 +10,9 @@ import {
     ListGroup,
     ListGroupItem
   } from "reactstrap";
+import JoblyApi from "./api";
 
-const Company = ({getCompany}) => {
+const Company = ({getCompany, handleApply, hasAppliedToJob}) => {
 
     const { companyHandle } = useParams();
     const [company, setCompany] = useState(null);
@@ -26,6 +27,8 @@ const Company = ({getCompany}) => {
         fetchCompany();
     }, [companyHandle, getCompany])
 
+
+
     if (isLoading) {
         return <p>Loading &hellip;</p>;
       }
@@ -35,8 +38,10 @@ const Company = ({getCompany}) => {
     }
 
     return(
-        <div>
+        <div className="page-container">
+        <div className="content-wrapper">
             <SearchForm />
+            <div className="card-container">
             <Card className="transparent-card">
             <CardBody >
                 <CardTitle className="font-weight-bold text-center">
@@ -63,14 +68,19 @@ const Company = ({getCompany}) => {
                                 <p>Equity: {job.equity}</p>
                                 
                             </CardText>   
-                            <button className="button-apply"> 
-                                Apply
+                            <button 
+                            className="button-apply"
+                            onClick={() => handleApply(job.id)}
+                            disabled={hasAppliedToJob(job.id)}> 
+                                {hasAppliedToJob(job.id) ? "Applied" : "Apply"}
                             </button>
                         </CardBody>
                     </Card>
                     </>
                 ))
             }
+        </div>
+        </div>
         </div>
     )
 }
