@@ -1,8 +1,6 @@
 import React, {useState} from "react";
 import useLocalStorageState from './hooks/useLocalStorageState';
 import {useNavigate} from "react-router-dom"
-import JoblyApi from "./api";
-import {jwtDecode} from "jwt-decode";
 import {
     Card,
     CardBody,

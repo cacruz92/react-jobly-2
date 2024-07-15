@@ -11,6 +11,7 @@ import Profile from './Profile';
 import {useContext, useEffect, useState } from 'react';
 import NavBar from './NavBar';
 import UserContext from './UserContext';
+import ProtectedRoute from './ProtectedRoute';
 
 
 function App() {
@@ -93,9 +94,9 @@ function App() {
       <NavBar logout={logout} />
         <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/companies" element={<ListPage list={companyList} title="Companies" category="Companies" />} />
-            <Route path="/companies/:companyHandle" element={<Company getCompany={getCompany}/>} />
-            <Route path="/jobs" element={<ListPage list={jobList} title="Jobs" category="Jobs" />} />
+            <Route path="/companies" element={<ProtectedRoute><ListPage list={companyList} title="Companies" category="Companies" /></ProtectedRoute>} />
+            <Route path="/companies/:companyHandle" element={<ProtectedRoute><Company getCompany={getCompany}/></ProtectedRoute>} />
+            <Route path="/jobs" element={<ProtectedRoute><ListPage list={jobList} title="Jobs" category="Jobs" /></ProtectedRoute>} />
             <Route path="/login" element={<LoginForm handleUserAuth={handleUserAuth} />} />
             <Route path="/signup" element={<SignupForm handleUserAuth={handleUserAuth} />} />
             <Route path="/profile" element={<Profile />} />
